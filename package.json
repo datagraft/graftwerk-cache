@@ -1,8 +1,14 @@
 {
-  "name": "grafter-memcache",
+  "name": "graftwerk-cache",
   "version": "0.1.0",
   "description": "A caching component for Graftwerk",
   "main": "index.js",
+  "repository" :
+  { 
+    "type" : "git", 
+    "url" : "https://github.com/datagraft/graftwerk-cache"
+  },
+
   "dependencies": {
     "busboy": "^0.2.11",
     "compression": "^1.5.2",
@@ -13,7 +19,8 @@
     "length-stream": "^0.1.1",
     "morgan": "^1.6.1",
     "q": "^1.4.1",
-    "temp": "^0.8.3"
+    "temp": "^0.8.3",
+    "mkdirp": "^0.5.1"
   },
   "devDependencies": {},
   "scripts": {

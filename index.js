@@ -60,6 +60,9 @@ var filesizeParser = require('filesize-parser');
 var cleaning = require('./cleaning');
 var sin = require('./model.js');
 
+// Like mkdir -p, but in node.js! (creates folders)
+var mkdirp = require('mkdirp');
+
 
 /**
  * All the following settings are pre-configured, but can be overrided using environnement
@@ -81,11 +84,27 @@ var maximumWaitingDelay = parseInt(process.env.MAXIMUM_WAITING_DELAY) || 15000;
 // Each file is identified by a hash (also known as ticked number)
 var cacheFolder = process.env.CACHE_FOLDER || './cache/';
 
+mkdirp(cacheFolder, function (err) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('Created cache folder at ' + cacheFolder);
+  }
+});
+
+
 // The reqs folder contains the queries that must be sent to Graftwerk
 // They are saved as a file in order to reduce the memory usage by the component.
 // If the server contains a lot of memory, this folder can be mounted as a tmpfs
 // filesystem.
 var reqsFolder = process.env.REQS_FOLDER || './reqs/';
+mkdirp(reqsFolder, function (err) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('Created requests folder at ' + reqsFolder);
+  }
+});
 
 // The max-age header is used by some proxies and caching system. It is sent when
 // the data is fetched by a client.
@@ -121,9 +140,11 @@ app.use(compression());
 app.use(morgan('short'));
 
 // Enable CORS for every request
-app.use(cors(function(req, callback) {
-  callback(null, {origin: true, credentials: true});
-}));
+app.use(cors(
+  function(req, callback) {
+    callback(null, {origin: true, credentials: true});
+  }
+));
 
 /**
  * This is the main API method provided by this component.
